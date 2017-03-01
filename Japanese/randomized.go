@@ -84,12 +84,20 @@ func genRandom() Gojuon {
 func main() {
     rand.Seed(time.Now().UTC().UnixNano())
     for {
-        gojuon := genRandom()
+	gojuon := genRandom()
 
-        fmt.Println(gojuon.Katakana, gojuon.Hiragana)
-        reader := bufio.NewReader(os.Stdin)
-        reader.ReadString('\n')
-        fmt.Println(gojuon.Roman, gojuon.Tip)
+	var ran int
+	var display, backup string
+
+	if ran, display, backup = rand.Intn(2), gojuon.Katakana, gojuon.Hiragana; ran > 0 {
+	    display = gojuon.Hiragana
+	    backup = gojuon.Katakana
+	}
+
+	fmt.Println(display)
+	reader := bufio.NewReader(os.Stdin)
+	reader.ReadString('\n')
+	fmt.Println(backup, gojuon.Roman, gojuon.Tip)
     }
 
 }
