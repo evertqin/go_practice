@@ -2,15 +2,17 @@ package main
 
 import (
 	"url"
-	"fmt"
+	"log"
 )
 
 func main() {
 	parser := url.URLParser{"http://broadwayforbrokepeople.com"}
 
-	body, _ := parser.ReadContent()
+	ch := make(chan string)
+	go parser.ParseContent(ch)
 
-	fmt.Println(body)
-
+	for item := range ch {
+		log.Println(item)
+	}
 
 }
